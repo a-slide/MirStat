@@ -22,29 +22,30 @@ v3 = c("G3-R1", "G3-R2", "G3-R3", "G4-R1", "G4-R2", "G4-R3")
 v4 = c("G2-R1", "G2-R2", "G2-R3", "G4-R1", "G4-R2", "G4-R3")
 v5 = c("G1-R1", "G1-R2", "G1-R3", "G2-R1", "G2-R2", "G2-R3", "G3-R1", "G3-R2", "G3-R3", "G4-R1", "G4-R2", "G4-R3")
 
+# Define group list and group names
 group.list = list(v1,v2,v3,v4,v5)
 names(group.list) = c("G1 vs G2", "G2 vs G3", "G3 vs G4", "G2 vs G4", "all samples")
 
+# Analyse each group iteratively
 for (group.name in names(group.list)){
 
     print (paste("ANALYSING GROUP ", group.name))
 
     #Extract informations for the current group
     group.data = data[group.list[[group.name]],]
-
     print ("INDIVIDUAL ANALYZED")
     print (group.list[[group.name]])
 
     # Open a file for writting a report of eliminated and retained mir
     filename = paste("Report_", group.name,".txt", collapse="")
 
-    # Eliminate du to at least 1 NA in the group
+    # Eliminate due to at least 1 NA in the group
     write ("ELIMINATED MIR DUE TO TECHNICAL FILTERS", filename)
     mir_list = paste(names(group.data[,colSums(is.na(group.data)) > 0]), collapse = "\t")
     write (mir_list, filename, append=T)
     group.data = group.data[,colSums(is.na(group.data)) == 0]
 
-    # Eliminate du to all undetermined in the group
+    # Eliminate due to all undetermined in the group
     write ("ELIMINATED MIR DUE TO UNDETERMINED VALUES", filename, append=T)
     mir_list = paste(names(group.data[,colSums(group.data !=0) == 0]), collapse = "\t")
     write (mir_list, filename, append=T)
@@ -69,13 +70,13 @@ for (group.name in names(group.list)){
     # Extract classes from the CAH
     class = cutree(tree, k = n_clust)
 
-    # Perform ACP with FactoMineR pakage
+    # Perform PCA with FactoMineR pakage
     PCA.res = PCA( group.data, scale.unit=T, graph = F)
 
     #plot3d(PCA.res$ind$coord[,1:3], col=class)
     #text3d(PCA.res$ind$coord[,1:3],texts=rownames(group.data))
 
-    # Create and export plots for all ACP results
+    # Create and export plots for all PCA results
     plot(PCA.res, axes = c(1, 2), choix = "ind", title = group.name, col.ind = class)
     dev.print(file = paste("PCA_samples_PC1_PC2", group.name,".svg", collapse=""), device=svg)
 
