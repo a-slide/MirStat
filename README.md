@@ -3,7 +3,7 @@
 
 ## Motivation
 MirStat is an R script developed to analyze miRNA data obtained by QPCR arrays. It generates a principal component analyze for the first 3 dimensions and a heatmap for each predefined groups.
-Developed for the study: *Teichenne et al, Transcriptional profile of acinar cells reprogrammed into insulin producing cells, 2015*
+Developed for the study: *Teichenne et al, Identification of miRNAs Involved in Reprogramming Acinar Cells into Insulin Producing Cells, 2015*
 
 ## Principle
 MirStat.R is a simple R script which analyzes QPCR values from a CSV file (see example in /data).
